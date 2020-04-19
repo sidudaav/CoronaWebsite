@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/homepage.css') }}">
+        <link href="{{ url_for('static', filename='styles/homepage.css') }}" rel="stylesheet" type="text/css" >
         {% if title %}
         <title>{{ title }} - TrendVis</title>
         {% else %}
@@ -8,9 +8,11 @@
         {% endif %}
     </head>
     <body>
-        <div>TrendVis:
-            <a href='/'>Home</a>
-            <a href='/map'>Map</a>
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/map">Map</a></li>
+            </ul>
         </div>
         <hr>
         <h1> Welcome to TrendVis </h1>
