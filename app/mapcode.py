@@ -313,17 +313,24 @@ def get_map(word, t):
         if 2.9 < state_dens:
           facecolor = '#0056D8'
       else:
-        if 1.3 < state_dens <= 1.6:
-          facecolor = 'xkcd:pale rose'
-        if 1.6 < state_dens <= 1.9:
-          facecolor = 'xkcd:salmon pink'
-        if 1.9 < state_dens <= 2.2:
+        if 1.3 < state_dens <= 1.5:
+          facecolor = '#FFACAC'
+        if 1.5 < state_dens <= 1.7:
+          facecolor = '#FF9191'
+        if 1.7 < state_dens <= 1.9:
           facecolor = 'xkcd:light red'
-        if 2.2 < state_dens <= 2.5:
-          facecolor = 'xkcd:strawberry'
-        if 2.5 < state_dens:
-          facecolor = 'xkcd:bright red'
-
+        if 1.9 < state_dens <= 2.1:
+          facecolor = '#FF6363'
+        if 2.1 < state_dens < 2.3:
+          facecolor = 'FF5151'
+        if 2.3 < state_dens < 2.5:
+          facecolor = '#FF3B3B'
+        if 2.5 < state_dens < 2.7:
+          facecolor = '#FF2828'
+        if 2.7 < state_dens < 2.9:
+          facecolor = '#FF1B1B'  
+        if 2.9 < state_dens:
+          facecolor = '#FF0000'
       # `astate.geometry` is the polygon to plot
       ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
                         facecolor=facecolor, edgecolor=edgecolor)

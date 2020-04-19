@@ -6,7 +6,7 @@ from app.forms import MapForm
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('base.html', title = 'Home')
+    return render_template('homepage.html', title = 'Home')
 
 @app.route('/map', methods = ['GET', 'POST'])
 def map():
@@ -22,5 +22,3 @@ def map():
         return render_template('mapresult.html', title = 'Map Results', image = image)
 
     return render_template('mapinput.html', title = 'Map Inputs', form = form)
-
-
