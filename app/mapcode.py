@@ -4,14 +4,23 @@ from pytrends.request import TrendReq
 import time
 from time import sleep
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import matplotlib.image as mpimg
+import statistics
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 
 pytrend = TrendReq()
 
+
+
+
 def rank_simple(vector):
     return sorted(range(len(vector)), key=vector.__getitem__)
+
+
+
+
 
 def rankdata(a):
     n = len(a)
@@ -44,6 +53,10 @@ state_list = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 
 
 new_case_list = case_list[::-1]
 
+
+
+
+
 def case_MSQE(in_list):
   rank = rankdata(in_list)
   MSQE = 0
@@ -56,6 +69,9 @@ def case_MSQE(in_list):
 
   return MSQE
 
+
+
+
 def get_diff(in_list):
   out_list = []
   rank = rankdata(in_list)
@@ -65,6 +81,10 @@ def get_diff(in_list):
     out_list.append(diff)
   
   return out_list
+
+
+
+
 
 def convert(in_list):
   out_list = []
@@ -172,6 +192,11 @@ def convert(in_list):
 
   return out_list
 
+
+
+
+
+
 def get_map(word, t):
   plt.switch_backend('Agg')
   sig_lev = None
@@ -208,6 +233,7 @@ def get_map(word, t):
 
       if val_end >= val_start:
         globals()[kw + '_all_significance_level'].append(val_end / max(val_start, 1))
+        globals()[kw + '_increase_states'].append(state)
       if val_start > val_end:
         globals()[kw + '_all_significance_level'].append(val_start / max(1, val_end))
 
@@ -215,7 +241,6 @@ def get_map(word, t):
         significant_keyword = True
         increase = True
         sig_lev = val_end / max(val_start, 1)
-        globals()[kw + '_increase_states'].append(state)
         globals()[kw + '_significance_level'].append(sig_lev)
       elif 1.3 * val_end < val_start:
         significant_keyword = True
@@ -233,7 +258,7 @@ def get_map(word, t):
       significant_list.append(significant_keyword)
       increase_list.append(increase)
 
-      time.sleep(0.75)
+      time.sleep(0.5)
 
     globals()[state + '_df'] = pd.DataFrame(
         {'Keyword': kw_list,
@@ -295,45 +320,194 @@ def get_map(word, t):
       # simple scheme to assign color to each state
       if astate.attributes['name'] in convert(globals()[kw + '_increase_states']):
         if 1.3 < state_dens <= 1.5:
-          facecolor = '#00EFFF'
+          facecolor = '#C8C8FF'
         if 1.5 < state_dens <= 1.7:
-          facecolor = '#00E8F9'
+          facecolor = '#AFAFFF'
         if 1.7 < state_dens <= 1.9:
-          facecolor = '#00DFEF'
+          facecolor = '#9696FF'
         if 1.9 < state_dens <= 2.1:
-          facecolor = '#00BEE4'
+          facecolor = '#7D7DFF'
         if 2.1 < state_dens <= 2.3:
-          facecolor = '#00AEE4'
+          facecolor = '#6464FF'
         if 2.3 < state_dens <= 2.5:
-          facecolor = '#00A5D7'
+          facecolor = '#4B4BFF'
         if 2.5 < state_dens <= 2.7:
-          facecolor = '#0089D8'
+          facecolor = '#3232FF'
         if 2.7 < state_dens <= 2.9:
-          facecolor = '#0073D8'
+          facecolor = '#1919FF'
         if 2.9 < state_dens:
-          facecolor = '#0056D8'
+          facecolor = '#0000FF'
       else:
         if 1.3 < state_dens <= 1.5:
-          facecolor = '#FFACAC'
+          facecolor = '#FFC8C8'
         if 1.5 < state_dens <= 1.7:
-          facecolor = '#FF9191'
+          facecolor = '#FFAFAF'
         if 1.7 < state_dens <= 1.9:
-          facecolor = 'xkcd:light red'
+          facecolor = '#FF9696'
         if 1.9 < state_dens <= 2.1:
-          facecolor = '#FF6363'
+          facecolor = '#FF7D7D'
         if 2.1 < state_dens < 2.3:
-          facecolor = 'FF5151'
+          facecolor = '#FF6464'
         if 2.3 < state_dens < 2.5:
-          facecolor = '#FF3B3B'
+          facecolor = '#FF4B4B'
         if 2.5 < state_dens < 2.7:
-          facecolor = '#FF2828'
+          facecolor = '#FF3232'
         if 2.7 < state_dens < 2.9:
-          facecolor = '#FF1B1B'  
+          facecolor = '#FF1919'  
         if 2.9 < state_dens:
           facecolor = '#FF0000'
+        
       # `astate.geometry` is the polygon to plot
       ax.add_geometries([astate.geometry], ccrs.PlateCarree(),
-                        facecolor=facecolor, edgecolor=edgecolor)
+                          facecolor=facecolor, edgecolor=edgecolor)
+  
+  blue_patch1 = mpatches.Patch(color='#C8C8FF', label='The red data')
+  blue_patch2 = mpatches.Patch(color='#AFAFFF', label='The red data')
+  blue_patch3 = mpatches.Patch(color='#9696FF', label='The red data')
+  blue_patch4 = mpatches.Patch(color='#7D7DFF', label='The red data')
+  blue_patch5 = mpatches.Patch(color='#6464FF', label='The red data')
+  blue_patch6 = mpatches.Patch(color='#4B4BFF', label='The red data')
+  blue_patch7 = mpatches.Patch(color='#3232FF', label='The red data')
+  blue_patch8 = mpatches.Patch(color='#1919FF', label='The red data')
+  blue_patch9 = mpatches.Patch(color='#0000FF', label='The red data')
+  red_patch1 = mpatches.Patch(color='#FF0000', label='The red data')
+  red_patch2 = mpatches.Patch(color='#FF1919', label='The red data')
+  red_patch3 = mpatches.Patch(color='#FF3232', label='The red data')
+  red_patch4 = mpatches.Patch(color='#FF4B4B', label='The red data')
+  red_patch5 = mpatches.Patch(color='#FF6464', label='The red data')
+  red_patch6 = mpatches.Patch(color='#FF7D7D', label='The red data')
+  red_patch7 = mpatches.Patch(color='#FF9696', label='The red data')
+  red_patch8 = mpatches.Patch(color='#FFAFAF', label='The red data')
+  red_patch9 = mpatches.Patch(color='#FFC8C8', label='The red data')
+
+  plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0., handles=[blue_patch1, blue_patch2, blue_patch3, blue_patch4, blue_patch5, blue_patch6, blue_patch7,
+  blue_patch8, blue_patch9, red_patch1, red_patch2, red_patch3, red_patch4, red_patch5, red_patch6, red_patch7,
+  red_patch8, red_patch9])
+                        
+  ax.background_patch.set_alpha(0)
+  fig.patch.set_alpha(0)
 
   save_results_to = '/Users/siddharthjha/Desktop/CoronaWebsite/app/static/MapsHolder/'
-  plt.savefig(save_results_to + str(word) + 'Map.png', dpi = 1000)
+  plt.savefig(save_results_to + str(word) + 'Map.png', dpi = 1000, tansparent = True)
+  
+
+
+
+
+
+def get_data(word, t):
+
+  state_list = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY',
+                'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY',
+                'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+
+  full_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida',
+                'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
+                'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada',
+                  'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
+                  'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah',
+                  'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+  
+  sig_lev = None
+  kw_list = [word]
+
+  #for i in range(0, n): 
+      #keyword = input()
+      #kw_list.append(keyword) # adding the element 
+
+  for kw in kw_list: 
+    globals()[kw + '_counter'] = 0
+    globals()[kw + '_states'] = []
+    globals()[kw + '_increase_states'] = []
+    globals()[kw + '_significance_level'] = []
+    globals()[kw + '_all_significance_level'] = []
+    globals()[kw + '_all_increase_level'] = []
+
+  for state in state_list:
+    significant_keyword = True
+    increase = True
+    significant_list = []
+    increase_list = []
+    occurrences_list = []
+
+    for kw in kw_list:
+      new_kw_list = [kw]
+      pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='')
+
+      df = pytrend.interest_over_time()
+      df1 = df[0:31]
+      df2 = df[df.shape[0] - 31:df.shape[0]]
+
+      val_start = df1[kw].mean()
+      val_end = df2[kw].mean()
+
+      if val_end >= val_start:
+        globals()[kw + '_all_increase_level'].append('Increase')
+        globals()[kw + '_all_significance_level'].append(val_end / max(val_start, 1))
+        globals()[kw + '_increase_states'].append(state)
+      if val_start > val_end:
+        globals()[kw + '_all_increase_level'].append('Decrease')
+        globals()[kw + '_all_significance_level'].append(val_start / max(1, val_end))
+
+      if val_end > 1.3 * val_start:
+        significant_keyword = True
+        increase = True
+        sig_lev = val_end / max(val_start, 1)
+        globals()[kw + '_significance_level'].append(sig_lev)
+      elif 1.3 * val_end < val_start:
+        significant_keyword = True
+        increase = False
+        sig_lev = val_start / max(val_end, 1)
+        globals()[kw + '_significance_level'].append(sig_lev)
+      else:
+        significant_keyword = False
+        increase = 'N/A'
+      
+      if significant_keyword == True:
+        globals()[kw + '_counter'] = globals()[kw + '_counter'] + 1
+        globals()[kw + '_states'].append(state)
+
+      significant_list.append(significant_keyword)
+      increase_list.append(increase)
+
+      time.sleep(0.5)
+
+    globals()[state + '_df'] = pd.DataFrame(
+        {'Keyword': kw_list,
+        'Significance?': significant_list,
+        'Increase?': increase_list
+        })
+    
+  for kw in kw_list: 
+    occurrences_list.append(globals()[kw + '_counter'])
+
+  occurrences_df = pd.DataFrame(
+      {'Keyword': kw_list,
+      'Occurrecnes': occurrences_list,
+      })
+  
+  for i in range(0, 50):
+    globals()[kw + '_all_significance_level'][i] = (globals()[kw + '_all_significance_level'][i] - 1) * 100
+
+  data_df = pd.DataFrame(
+    {
+      'State': full_states,
+      '% Change': globals()[kw + '_all_significance_level'],
+      'Direction': globals()[kw + '_all_increase_level']
+    }
+  )
+
+  inc_list = globals()[kw + '_increase_states']
+  dec_list = []
+  
+  for ele in state_list:
+    if ele not in  globals()[kw + '_increase_states']:
+      dec_list.append(ele)
+  
+  inc_list = convert(inc_list)
+  dec_list = convert(dec_list)
+
+  return data_df, inc_list, dec_list
+
+
+

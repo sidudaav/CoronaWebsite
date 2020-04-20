@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mapresult.css') }}">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/kwresult.css') }}">
         {% if title %}
         <title>{{ title }} - TrendVis</title>
         {% else %}
@@ -16,11 +16,13 @@
             </ul>
         </div>
         <hr>
-        <h1>Map Results</h1>
-        <body>
-            <p><img src= {{image}} alt='Girl in a jacket',
-                 height = '600', width = '600' class = center> </p>
-        </body>
+        <h2>Search Data for {{ keyword }}</h2>
+        <div>
+            {% for table in tables %}
+                {{titles[loop.index]}}
+                {{ table|safe }}
+            {% endfor %}
+        </div>
     </body>
 </html>
         

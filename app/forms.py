@@ -6,3 +6,8 @@ class MapForm(FlaskForm):
     keyword = StringField('Keyword', validators=[DataRequired()])
     time_range = StringField('Time Range', validators=[DataRequired()])
     submit = SubmitField('Get Map')
+
+class kwForm(FlaskForm):
+    keyword = StringField('Keyword', validators=[DataRequired()])
+    time_range = StringField('Time Range', validators=[DataRequired()])
+    submit = SubmitField('Get Data')
