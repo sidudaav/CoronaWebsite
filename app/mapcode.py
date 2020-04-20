@@ -1,4 +1,5 @@
 import pandas as pd     
+import pathlib
 import os                   
 from pytrends.request import TrendReq
 import time
@@ -9,6 +10,9 @@ import matplotlib.image as mpimg
 import statistics
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
+
+files = pathlib.Path(__file__).parent.absolute()
+MapsHolder_dir  = str(files) + '/static/MapsHolder/'
 
 pytrend = TrendReq()
 
@@ -387,7 +391,7 @@ def get_map(word, t):
   ax.background_patch.set_alpha(0)
   fig.patch.set_alpha(0)
 
-  save_results_to = '/Users/siddharthjha/Desktop/CoronaWebsite/app/static/MapsHolder/'
+  save_results_to = str(MapsHolder_dir) 
   plt.savefig(save_results_to + str(word) + 'Map.png', dpi = 1000, tansparent = True)
   
 
