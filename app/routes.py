@@ -15,9 +15,10 @@ def map():
 
     if form.validate_on_submit():
         user_keyword = form.keyword.data
-        user_time_range = form.time_range.data
+        user_time_range1 = form.time_range1.data
+        user_time_range2 = form.time_range2.data
         
-        mc.get_map(user_keyword, user_time_range)
+        mc.get_map(user_keyword, user_time_range1, user_time_range2)
         image = '/static/MapsHolder/' + str(user_keyword) + 'Map.png'
 
         return render_template('mapresult.html', title = 'Map Results', image = image)
@@ -30,9 +31,10 @@ def data():
 
     if form.validate_on_submit():
         user_keyword = form.keyword.data
-        user_time_range = form.time_range.data
+        user_time_range1 = form.time_range1.data
+        user_time_range2 = form.time_range2.data
 
-        df  = mc.get_data(user_keyword, user_time_range)
+        df  = mc.get_data(user_keyword, user_time_range1, user_time_range2)
         return render_template('kwresult.html',  tables=[df.to_html(classes='data', index = False)],
          title = 'Keyword Results', titles=df.columns.values, keyword = user_keyword)
 

@@ -1,5 +1,6 @@
 import pandas as pd     
 import pathlib
+from datetime import datetime
 import os                   
 from pytrends.request import TrendReq
 import time
@@ -7,7 +8,6 @@ from time import sleep
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.image as mpimg
-import statistics
 import cartopy.crs as ccrs
 import cartopy.io.shapereader as shpreader
 
@@ -22,6 +22,15 @@ pytrend = TrendReq()
 def rank_simple(vector):
     return sorted(range(len(vector)), key=vector.__getitem__)
 
+
+
+def date_diff(d1, d2):
+  date_format = '%Y-%m-%d'
+  a = datetime.strptime(d1, date_format)
+  b = datetime.strptime(d2, date_format)
+  delta = str(b - a)
+  delta_split = delta.split(' ')
+  return delta_split[0]
 
 
 
@@ -201,7 +210,7 @@ def convert(in_list):
 
 
 
-def get_map(word, t):
+def get_map(word, t1, t2):
   plt.switch_backend('Agg')
   sig_lev = None
   kw_list = [word]
@@ -226,11 +235,11 @@ def get_map(word, t):
 
     for kw in kw_list:
       new_kw_list = [kw]
-      pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='')
-
-      df = pytrend.interest_over_time()
-      df1 = df[0:31]
-      df2 = df[df.shape[0] - 31:df.shape[0]]
+      
+      pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop='')
+      df1 = pytrend.interest_over_time()
+      pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
+      df2 = pytrend.interest_over_time()
 
       val_start = df1[kw].mean()
       val_end = df2[kw].mean()
@@ -297,8 +306,7 @@ def get_map(word, t):
                                       category='cultural', name=shapename)
 
 
-  popdensity = dict(zip(full_states, globals()[kw + '_significance_level'])) 
-  
+  popdensity = dict(zip(full_states, globals()[kw + '_all_significance_level']))  
 
   ax.background_patch.set_visible(False)
   ax.outline_patch.set_visible(False)
@@ -399,7 +407,7 @@ def get_map(word, t):
 
 
 
-def get_data(word, t):
+def get_data(word, t1, t2):
 
   state_list = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY',
                 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY',
@@ -436,11 +444,11 @@ def get_data(word, t):
 
     for kw in kw_list:
       new_kw_list = [kw]
-      pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='')
-
-      df = pytrend.interest_over_time()
-      df1 = df[0:31]
-      df2 = df[df.shape[0] - 31:df.shape[0]]
+      
+      pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop='')
+      df1 = pytrend.interest_over_time()
+      pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
+      df2 = pytrend.interest_over_time()
 
       val_start = df1[kw].mean()
       val_end = df2[kw].mean()
@@ -511,7 +519,5 @@ def get_data(word, t):
   inc_list = convert(inc_list)
   dec_list = convert(dec_list)
 
-  return data_df, inc_list, dec_list
 
-
-
+  return data_df

@@ -11,7 +11,7 @@
         <div>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/map">Map</a></li>
+                <li class = 'active'><a href="/map">Map</a></li>
                 <li><a href="/data">Data</a></li>
             </ul>
         </div>
@@ -25,8 +25,12 @@
                     {{ form.keyword(size=32) }}
                 </p>
                 <p>
-                    {{ form.time_range.label }}<br>
-                    {{ form.time_range(size=32) }}
+                    {{ form.time_range1.label }}<br>
+                    {{ form.time_range1(size=32) }}
+                </p>
+                <p>
+                    {{ form.time_range2.label }} <br>
+                    {{ form.time_range2(size=32) }}
                 </p>
                 <p>{{ form.submit() }}</p>
             </form>
