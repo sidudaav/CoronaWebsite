@@ -1,3 +1,7 @@
+h1{
+    color: black;
+    text-align: center;
+}
 
 ul {
     list-style-type: none;
@@ -28,13 +32,22 @@ li a:hover {
     background-color: darkslateblue;
 }
 
-div.center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+.right-justify{
+    float: right;
+}
+
+div.form
+{
+    display: block;
+    text-align: center;
+}
+form
+{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
 
 body{
     background-color: lightgray;

@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mapinput.css') }}">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/YoutubeStyles/youtube_datainput.css') }}">
         {% if title %}
         <title>{{ title }} - TrendVis</title>
         {% else %}
@@ -10,9 +10,11 @@
     <body>
         <div>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li class = 'active'><a href="/map">Map</a></li>
-                <li><a href="/data">Data</a></li>
+                <li><a href="/youtube-home">Home</a></li>
+                <li><a href="/youtube-map">Map</a></li>
+                <li class = 'active'><a href="/youtube-data">Data</a></li>
+                <li><a href='/youtube-kwplot'>Keyword Plot</a></li>
+                <li class = 'right-justify'><a href='/'>Google Search Trends</a></li>
             </ul>
         </div>
         <hr>

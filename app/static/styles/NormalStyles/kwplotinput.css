@@ -32,7 +32,23 @@ li a:hover {
     background-color: darkslateblue;
 }
 
+.right-justify{
+    float: right;
+}
+
+div.form
+{
+    display: block;
+    text-align: center;
+}
+form
+{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
 body{
     background-color: lightgray;
-    color: white;
 }

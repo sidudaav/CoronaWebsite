@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/YoutubeStyles/youtube_mapresult.css') }}">
+        {% if title %}
+        <title>{{ title }} - TrendVis</title>
+        {% else %}
+        <title>TrendVis</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="/youtube-home">Home</a></li>
+                <li class = 'active'><a href="/youtube-map">Map</a></li>
+                <li><a href="/youtube-data">Data</a></li>
+                <li><a href='/youtube-kwplot'>Keyword Plot</a></li>
+                <li class = 'right-justify'><a href='/'>Google Search Trends</a></li>
+            </ul>
+        </div>
+        <hr>
+        <h1>Map Results</h1>
+        <body>
+            <p><img src= {{image}} alt='Map',
+                 height = '600', width = '600' class = center> </p>
+        </body>
+    </body>
+</html>
+        

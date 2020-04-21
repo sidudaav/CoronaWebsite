@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/NormalStyles/kwplotinput.css') }}">
+        {% if title %}
+        <title>{{ title }} - TrendVis</title>
+        {% else %}
+        <title>TrendVis</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/map">Map</a></li>
+                <li><a href="/data">Data</a></li>
+                <li class = 'active'><a href='/kwplot'>Keyword Plot</a></li>
+                <li class = 'right-justify'><a href='/youtube-home'>YouTube Trends</a></li>
+            </ul>
+        </div>
+        <hr>
+        <h1>Enter the Inputs</h1>
+        <div class = 'form'>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.keyword1.label }}<br>
+                    {{ form.keyword1(size=32) }}
+                </p>
+                <p>
+                    {{ form.keyword2.label }}<br>
+                    {{ form.keyword2(size=32) }}
+                </p>
+                <p>
+                    {{ form.keyword3.label }}<br>
+                    {{ form.keyword3(size=32) }}
+                </p>
+                <p>
+                    {{ form.keyword4.label }}<br>
+                    {{ form.keyword4(size=32) }}
+                </p>
+                <p>
+                    {{ form.keyword5.label }}<br>
+                    {{ form.keyword5(size=32) }}
+                </p>
+                <p>
+                    {{ form.location.label }}<br>
+                    {{ form.location(size=32) }}
+                </p>
+                <p>
+                    {{ form.time_range.label }}<br>
+                    {{ form.time_range(size=32) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+    </body>
+</html>

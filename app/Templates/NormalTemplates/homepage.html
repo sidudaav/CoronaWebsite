@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link href="{{ url_for('static', filename='styles/homepage.css') }}" rel="stylesheet" type="text/css" >
+        <link href="{{ url_for('static', filename='styles/NormalStyles/homepage.css') }}" rel="stylesheet" type="text/css" >
         {% if title %}
         <title>{{ title }} - TrendVis</title>
         {% else %}
@@ -13,6 +13,8 @@
                 <li class = 'active'><a href="/">Home</a></li>
                 <li><a href="/map">Map</a></li>
                 <li><a href="/data">Data</a></li>
+                <li><a href='/kwplot'>Keyword Plot</a></li>
+                <li class = 'right-justify'><a href='/youtube-home'>YouTube Trends</a></li>
             </ul>
         </div>
         <hr>

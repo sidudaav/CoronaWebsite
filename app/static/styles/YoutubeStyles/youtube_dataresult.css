@@ -1,6 +1,5 @@
-h1{
-    color: black;
-    text-align: center;
+h2{
+    color: red;
 }
 
 ul {
@@ -32,18 +31,17 @@ li a:hover {
     background-color: darkslateblue;
 }
 
-div.form
-{
-    display: block;
-    text-align: center;
+.right-justify{
+    float: right;
 }
-form
-{
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-}
+
+div.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 
 body{
     background-color: lightgray;

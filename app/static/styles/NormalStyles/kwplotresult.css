@@ -32,18 +32,16 @@ li a:hover {
     background-color: darkslateblue;
 }
 
-div.form
-{
-    display: block;
-    text-align: center;
+.right-justify{
+    float: right;
 }
-form
-{
-    display: inline-block;
+
+.center {
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    text-align: left;
-}
+    width: 50%;
+  }
 
 body{
     background-color: lightgray;

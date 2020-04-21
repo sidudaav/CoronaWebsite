@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/NormalStyles/mapinput.css') }}">
+        {% if title %}
+        <title>{{ title }} - TrendVis</title>
+        {% else %}
+        <title>TrendVis</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li class = 'active'><a href="/map">Map</a></li>
+                <li><a href="/data">Data</a></li>
+                <li><a href='/kwplot'>Keyword Plot</a></li>
+                <li class = 'right-justify'><a href='/youtube-home'>YouTube Trends</a></li>
+            </ul>
+        </div>
+        <hr>
+        <h1>Enter the Inputs</h1>
+        <div class = 'form'>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.keyword.label }}<br>
+                    {{ form.keyword(size=32) }}
+                </p>
+                <p>
+                    {{ form.time_range1.label }}<br>
+                    {{ form.time_range1(size=32) }}
+                </p>
+                <p>
+                    {{ form.time_range2.label }} <br>
+                    {{ form.time_range2(size=32) }}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+    </body>
+</html>
