@@ -243,9 +243,9 @@ def get_map(word, t1, t2, youtube):
         pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
         df2 = pytrend.interest_over_time()
       else:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= youtube)
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= 'youtube')
         df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= youtube)
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= 'youtube')
         df2 = pytrend.interest_over_time()
 
       val_start = df1[kw].mean()
@@ -458,9 +458,9 @@ def get_data(word, t1, t2, youtube):
         pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
         df2 = pytrend.interest_over_time()
       else:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= youtube)
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= 'youtube')
         df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= youtube)
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= 'youtube')
         df2 = pytrend.interest_over_time()        
 
       val_start = df1[kw].mean()
@@ -541,7 +541,7 @@ def kw_plot(t, kw_list, location, youtube):
   if youtube == False:
     pytrend.build_payload(kw_list, timeframe= t, geo = location)
   else:
-    pytrend.build_payload(kw_list, timeframe= t, geo = location, gprop = youtube)
+    pytrend.build_payload(kw_list, timeframe= t, geo = location, gprop = 'youtube')
 
 
   df = pytrend.interest_over_time()
