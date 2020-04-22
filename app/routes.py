@@ -3,6 +3,17 @@ from flask import render_template, request, redirect, url_for
 from app import mapcode as mc
 from app.forms import *
 
+@app.after_request
+def add_header(response):
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Expires'] = '0'
+    return response
+
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('favicon.ico')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -18,9 +29,8 @@ def map():
         user_time_range2 = form.time_range2.data
         
         mc.get_map(user_keyword, user_time_range1, user_time_range2, False)
-        image = '/static/MapsHolder/' + 'Map.png'
 
-        return render_template('NormalTemplates/mapresult.html', title = 'Map Results', image = image)
+        return render_template('NormalTemplates/mapresult.html', title = 'Map Results')
 
     return render_template('NormalTemplates/mapinput.html', title = 'Map Inputs', form = form)
 
@@ -62,9 +72,7 @@ def kwplot():
         location = form.location.data
         mc.kw_plot(time_range, kw_list, location, False)
 
-        image = '/static/MapsHolder/ComparisonPlot.png'
-
-        return render_template('NormalTemplates/kwplotresult.html', title = 'Keywords Plot', image = image)
+        return render_template('NormalTemplates/kwplotresult.html', title = 'Keywords Plot')
 
     return render_template('NormalTemplates/kwplotinput.html', title = 'Keywords Plot', form = form)
 
@@ -82,9 +90,8 @@ def youtube_map():
         user_time_range2 = form.time_range2.data
         
         mc.get_map(user_keyword, user_time_range1, user_time_range2, True)
-        image = '/static/MapsHolder/' + 'Map.png'
 
-        return render_template('YoutubeTemplates/youtube_mapresult.html', title = 'Map Results', image = image)
+        return render_template('YoutubeTemplates/youtube_mapresult.html', title = 'Map Results')
 
     return render_template('YoutubeTemplates/youtube_mapinput.html', title = 'Map Inputs', form = form)
 
@@ -126,8 +133,6 @@ def youtube_kwplot():
         location = form.location.data
         mc.kw_plot(time_range, kw_list, location, True)
 
-        image = '/static/MapsHolder/ComparisonPlot.png'
-
-        return render_template('YoutubeTemplates/youtube_kwplotresult.html', title = 'Keywords Plot', image = image)
+        return render_template('YoutubeTemplates/youtube_kwplotresult.html', title = 'Keywords Plot')
 
     return render_template('YoutubeTemplates/youtube_kwplotinput.html', title = 'Keywords Plot', form = form)

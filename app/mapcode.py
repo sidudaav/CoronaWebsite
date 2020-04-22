@@ -2,7 +2,9 @@ import pandas as pd
 import pathlib
 import seaborn as sns
 from datetime import datetime
-import os                   
+import os 
+import os.path
+from os import path                  
 from pytrends.request import TrendReq
 import time
 from time import sleep
@@ -14,10 +16,13 @@ import cartopy.io.shapereader as shpreader
 
 files = pathlib.Path(__file__).parent.absolute()
 MapsHolder_dir  = str(files) + '/static/MapsHolder/'
+save_results_to = str(MapsHolder_dir)
+
+filelist = [ f for f in os.listdir(MapsHolder_dir) if f.endswith('.png') ]
+for f in filelist:
+    os.remove(os.path.join(MapsHolder_dir, f))
 
 pytrend = TrendReq()
-
-
 
 
 def rank_simple(vector):
@@ -216,9 +221,15 @@ def get_map(word, t1, t2, youtube):
   sig_lev = None
   kw_list = [word]
 
-  #for i in range(0, n): 
-      #keyword = input()
-      #kw_list.append(keyword) # adding the element 
+  d1 = t1.split(' ')[0]
+  d2 = t1.split(' ')[1]
+  d3 = t2.split(' ')[0]
+  d4 = t2.split(' ')[1]
+
+  r1 = int(date_diff(d1, d2))
+  r2 = int(date_diff(d3,d4))
+
+  t = d1 + ' ' + d4
 
   for kw in kw_list: 
     globals()[kw + '_counter'] = 0
@@ -238,15 +249,18 @@ def get_map(word, t1, t2, youtube):
       new_kw_list = [kw]
 
       if youtube == False:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop='')
-        df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
-        df2 = pytrend.interest_over_time()
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='')
+        df = pytrend.interest_over_time()
+        df.reset_index(drop=True, inplace = True)
+        df1 = df.iloc[0:r1]
+        df2 = df.iloc[df.shape[0] - r2:df.shape[0], :]
+      
       else:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= 'youtube')
-        df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= 'youtube')
-        df2 = pytrend.interest_over_time()
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='youtube')
+        df = pytrend.interest_over_time()
+        df.reset_index(drop=True, inplace = True)
+        df1 = df.iloc[0:r1]
+        df2 = df.iloc[df.shape[0] - r2:df.shape[0], :]
 
       val_start = df1[kw].mean()
       val_end = df2[kw].mean()
@@ -318,7 +332,11 @@ def get_map(word, t1, t2, youtube):
   ax.background_patch.set_visible(False)
   ax.outline_patch.set_visible(False)
 
-  ax.set_title('State Search Trend Change For ' + str(word))
+  if youtube == False:
+    ax.set_title('State Search Trend Change For ' + str(word))
+  else:
+    ax.set_title('State Search Trend Change For ' + str(word), color = 'red')
+
 
   #for state in shpreader.Reader(states_shp).geometries():
   for astate in shpreader.Reader(states_shp).records():
@@ -406,7 +424,6 @@ def get_map(word, t1, t2, youtube):
   ax.background_patch.set_alpha(0)
   fig.patch.set_alpha(0)
 
-  save_results_to = str(MapsHolder_dir) 
   plt.savefig(save_results_to +  'Map.png', dpi = 1000, tansparent = True)
   
 
@@ -430,9 +447,15 @@ def get_data(word, t1, t2, youtube):
   sig_lev = None
   kw_list = [word]
 
-  #for i in range(0, n): 
-      #keyword = input()
-      #kw_list.append(keyword) # adding the element 
+  d1 = t1.split(' ')[0]
+  d2 = t1.split(' ')[1]
+  d3 = t2.split(' ')[0]
+  d4 = t2.split(' ')[1]
+
+  r1 = int(date_diff(d1, d2))
+  r2 = int(date_diff(d3,d4))
+
+  t = d1 + ' ' + d4
 
   for kw in kw_list: 
     globals()[kw + '_counter'] = 0
@@ -449,19 +472,21 @@ def get_data(word, t1, t2, youtube):
     increase_list = []
     occurrences_list = []
 
+    
+
     for kw in kw_list:
       new_kw_list = [kw]
 
       if youtube == False:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop='')
-        df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop='')
-        df2 = pytrend.interest_over_time()
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='')
+        df = pytrend.interest_over_time()
+        df1 = df[0:r1]
+        df2 = df[df.shape[0] - r2:df.shape[0]]
       else:
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t1, geo='US-' + state, gprop= 'youtube')
-        df1 = pytrend.interest_over_time()
-        pytrend.build_payload(new_kw_list, cat=0, timeframe= t2, geo='US-' + state, gprop= 'youtube')
-        df2 = pytrend.interest_over_time()        
+        pytrend.build_payload(new_kw_list, cat=0, timeframe= t, geo='US-' + state, gprop='youtube')
+        df = pytrend.interest_over_time()
+        df1 = df[0:r1]
+        df2 = df[df.shape[0] - r2:df.shape[0]]      
 
       val_start = df1[kw].mean()
       val_end = df2[kw].mean()
@@ -551,5 +576,5 @@ def kw_plot(t, kw_list, location, youtube):
   dx.set_ylabel('Trends Index')
   dx.tick_params(axis='both', which='major', labelsize=13)
 
-  save_results_to = str(MapsHolder_dir) 
-  plt.savefig(save_results_to + 'ComparisonPlot.png', dpi = 1000, tansparent = True)
+  fname = save_results_to + 'ComparisonPlot.png'
+  plt.savefig(fname, dpi = 1000, tansparent = True)

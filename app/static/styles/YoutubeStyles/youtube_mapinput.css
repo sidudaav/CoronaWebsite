@@ -40,6 +40,7 @@ div.form
 {
     display: block;
     text-align: center;
+    color: red;
 }
 form
 {
@@ -50,5 +51,5 @@ form
 }
 
 body{
-    background-color: lightgray;
+    background-color: #282828;
 }
